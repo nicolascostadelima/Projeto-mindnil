@@ -2,16 +2,29 @@ const express = require("express");
 const cors = require("cors");
 
 const app = express();
-
-// Permite o backend receber JSON
 app.use(express.json());
-
-// Libera o acesso do frontend
 app.use(cors());
 
-// Rota inicial só para testar
+// Rota padrão
 app.get("/", (req, res) => {
   res.send("Servidor funcionando");
+});
+
+// IMPORTA O BANCO
+const pool = require("./db");
+
+// ROTA PARA TESTAR O BANCO
+app.get("/test-db", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT NOW()");
+    res.json({
+      status: "Conectado ao banco!",
+      hora_atual: result.rows[0]
+    });
+  } catch (error) {
+    console.error("Erro ao conectar:", error);
+    res.status(500).json({ erro: "Falha ao conectar ao banco." });
+  }
 });
 
 // Iniciar servidor
