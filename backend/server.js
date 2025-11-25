@@ -11,7 +11,7 @@ app.use(cors());
 
 // Rota inicial só para testar
 app.get("/", (req, res) => {
-  res.send("Servidor funcionando! 🔥");
+  res.send("Servidor funcionando");
 });
 
 // Iniciar servidor
